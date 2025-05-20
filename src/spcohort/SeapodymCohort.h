@@ -5,6 +5,8 @@
 
 class SeapodymCohort {
 
+public:
+
     /**
      * @brief Constructor
      * @param parFile XML input file
