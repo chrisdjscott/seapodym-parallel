@@ -9,8 +9,20 @@ enable_testing()
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-
 find_package(Doxygen)
+
+option(ADMB_HOME "Path to ADMB installation" "")
+
+
+# If ADMB_HOME is set, use it to configure include and library paths
+if(ADMB_HOME)
+    message(STATUS "Using ADMB from: ${ADMB_HOME}")
+    include_directories(${ADMB_HOME}/include)
+    link_directories(${ADMB_HOME}/lib)
+else()
+    message(FATAL_ERROR "ADMB_HOME not set. Please specify -DADMB_HOME=/path/to/admb")
+endif()
+
 
 if(DOXYGEN_FOUND)
     set(DOXYGEN_IN ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile)

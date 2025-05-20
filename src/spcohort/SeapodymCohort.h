@@ -1,9 +1,22 @@
 #include <string>
+#include <admodel.h>
+
 
 #ifndef SEAPODYM_COHORT
 #define SEAPODYM_COHORT
 
 class SeapodymCohort {
+
+private:
+
+    // unique Id for this cohort
+    int id;
+
+    // how long a forward step takes in milliseconds
+    long long milliseconds_step;
+
+    // size of the data to required to produce a new cohort from larvae
+    std::size_t data_size;
 
 public:
 

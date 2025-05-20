@@ -6,6 +6,7 @@ Code development of population dynamics models aka SEAPODYM with parallel runs a
 You will need:
  * A C++ compiler (e.g. g++) and MPI libraries installed (e.g. OpenMPI)
  * CMake
+ * ADMB
 
 
 ## How to build the seapodym-parallel
@@ -16,6 +17,7 @@ cd seapodym-parallel
 mkdir build
 cd build
 cmake ..
+cmake --build .
 ```
 
 ## How to build the documention
