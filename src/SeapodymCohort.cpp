@@ -14,7 +14,7 @@ SeapodymCohort::SeapodymCohort(const std::string& restartFile) {
   // TO IMPLEMENT
 }
 
-SeapodymCohort::SeapodymCohort(const double* data) {
+SeapodymCohort::SeapodymCohort(const std::vector<double>& data) {
   // TO IMPLEMENT
 }
 
@@ -24,14 +24,14 @@ SeapodymCohort::stepForward(const dvar_vector& paramVector) {
   std::this_thread::sleep_for(std::chrono::milliseconds(this->milliseconds_step));
 }
 
-void SeapodymCohort::setStateFromArray(const double* array) {
+void SeapodymCohort::setStateFromArray(const std::vector<double>& array) {
   // TO IMPLEMENT
 }
 
-double* 
+std::vector<double>
 SeapodymCohort::getArrayFromState() const {
   // TO IMPLEMENT
-  return nullptr;
+  return std::vector<double>();
 }
 
 void 

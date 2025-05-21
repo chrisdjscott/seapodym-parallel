@@ -1,5 +1,7 @@
 #include <string>
+#include <vector>
 #include <admodel.h>
+
 
 
 #ifndef SEAPODYM_COHORT
@@ -38,7 +40,7 @@ public:
      * Constructor from other cohorts' spawning data
      * @param data serialized data
      */
-    SeapodymCohort(const double* data);
+    SeapodymCohort(const std::vector<double>& data);
 
 
     /**
@@ -51,14 +53,14 @@ public:
       * Set state from array
       * @param array serialization of the object's state
       */
-    void setStateFromArray(const double* array);
+    void setStateFromArray(const std::vector<double>& array);
   
 
      /**
       * @brief Serialize the state
       * @return array serialization of the object's state
       */
-    double* getArrayFromState() const;
+    std::vector<double> getArrayFromState() const;
 
      /**
       * @brief Save the current state to a file
