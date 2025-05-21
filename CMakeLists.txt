@@ -36,4 +36,4 @@ if(DOXYGEN_FOUND)
 endif()
 
 add_subdirectory(src)
-add_subdirectory(test)
+add_subdirectory(tests)
