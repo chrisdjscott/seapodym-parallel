@@ -36,5 +36,4 @@ if(DOXYGEN_FOUND)
     )
 endif()
 
-
-add_subdirectory(src/spcohort)
+add_subdirectory(src)
