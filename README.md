@@ -16,7 +16,7 @@ git clone  git@github.com:PacificCommunity/seapodym-parallel
 cd seapodym-parallel
 mkdir build
 cd build
-cmake ..
+cmake -DADMB_HOME=path ..
 cmake --build .
 ```
 
