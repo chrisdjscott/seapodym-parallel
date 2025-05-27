@@ -1,4 +1,4 @@
-#include <SeapodymCohort.h>
+#include <SeapodymCohortFake.h>
 #include <admodel.h>
 #include <iostream>
 #include <string>
@@ -9,7 +9,7 @@ int main() {
     // Create a SeapodymCohort object
     int id = 12345;
     std::string parFile = "@CMAKE_SOURCE_DIR@/data/skipjack_F0.xml"; 
-    SeapodymCohort cohort(parFile, id);
+    SeapodymCohortFake cohort(parFile, id);
 
     cohort.stepForward(dvar_vector());
 
