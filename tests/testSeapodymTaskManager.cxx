@@ -31,6 +31,12 @@ void test(int na, int nw, int nt) {
 
                 // are there more tasks to execute?
                 tid = tm.getNextTask(tid);
+                auto deps = tm.getDependencies(tid);
+                std::cout << "[";
+                for (auto d : deps){
+                    std::cout << d << " ";
+                }
+                std::cout << "] -> ";
             }
             std::cout << ", ";
         }
@@ -49,6 +55,6 @@ int main() {
 
     // 3 age groups, 2 workers, 5 steps
     test(3, 2, 5);
-    
+
     return 0;
 }
