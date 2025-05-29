@@ -1,17 +1,19 @@
-
 #include <mpi.h>
 #include <map>
+
+#ifndef SEAPODYM_COURIER
+#define SEAPODYM_COURIER
 
 
 using Tuple3 = std::tuple<MPI_Win, double*, std::size_t>;
 
 /**
- * @brief SeapodymCourrier class for managing memory exposure and data fetching between MPI processes
+ * @brief SeapodymCourier class for managing memory exposure and data fetching between MPI processes
  * 
  * This class allows workers to expose their memory to other processes and fetch data from them.
  * It uses MPI windows for memory exposure and communication.
  */
-class SeapodymCourrier {
+class SeapodymCourier {
     
     private:
     
@@ -25,12 +27,12 @@ class SeapodymCourrier {
      * @brief Constructor
      * @param comm MPI communicator to use for communication
      */
-    SeapodymCourrier(MPI_Comm comm=MPI_COMM_WORLD);
+    SeapodymCourier(MPI_Comm comm=MPI_COMM_WORLD);
 
     /**
      * @brief Destructor
      */
-    ~SeapodymCourrier();
+    ~SeapodymCourier();
 
     /**
      * @brief Expose the memory to other processes
@@ -47,8 +49,10 @@ class SeapodymCourrier {
      */
     void fetch(double* data, int target_rank);
 
-    SeapodymCourrier(const SeapodymCourrier&) = delete; // Disable copy constructor
-    SeapodymCourrier& operator=(const SeapodymCourrier&) = delete; // Disable assignment operator
-    SeapodymCourrier(SeapodymCourrier&& other) noexcept; // Move constructor
-    SeapodymCourrier& operator=(SeapodymCourrier&& other) noexcept; // Move assignment operator
+    SeapodymCourier(const SeapodymCourier&) = delete; // Disable copy constructor
+    SeapodymCourier& operator=(const SeapodymCourier&) = delete; // Disable assignment operator
+    SeapodymCourier(SeapodymCourier&& other) noexcept; // Move constructor
+    SeapodymCourier& operator=(SeapodymCourier&& other) noexcept; // Move assignment operator
 };
+
+#endif // SEAPODYM_COURIER

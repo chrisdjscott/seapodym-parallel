@@ -1,18 +1,18 @@
 
-#include "SeapodymCourrier.h"
+#include "SeapodymCourier.h"
 
-SeapodymCourrier::SeapodymCourrier(MPI_Comm comm) {
+SeapodymCourier::SeapodymCourier(MPI_Comm comm) {
     this->comm = comm;
 }
 
-SeapodymCourrier::~SeapodymCourrier() {
+SeapodymCourier::~SeapodymCourier() {
     for (auto& entry : workerData) {
         MPI_Win_free(&std::get<0>(entry.second));
     }
 }
 
 void 
-SeapodymCourrier::expose(int workerId, double* data, int count) {
+SeapodymCourier::expose(int workerId, double* data, int count) {
     MPI_Win win;
     MPI_Win_create(data, count * sizeof(double), sizeof(double), MPI_INFO_NULL, comm, &win);
     
@@ -21,7 +21,7 @@ SeapodymCourrier::expose(int workerId, double* data, int count) {
 }
 
 void 
-SeapodymCourrier::fetch(double* data, int target_rank) {
+SeapodymCourier::fetch(double* data, int target_rank) {
 
     auto it = workerData.find(target_rank);
     if (it != workerData.end()) {

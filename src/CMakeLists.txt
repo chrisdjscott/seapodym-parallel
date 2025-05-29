@@ -5,7 +5,7 @@ include_directories(
 set(SRCS
    SeapodymCohortFake.cpp
    SeapodymTaskManager.cpp
-   SeapodymCourrier.cpp
+   SeapodymCourier.cpp
    )
 
 add_library(seapodym_api ${SRCS})
