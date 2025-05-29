@@ -6,6 +6,7 @@ set(SRCS
    SeapodymCohortFake.cpp
    SeapodymTaskManager.cpp
    SeapodymCourier.cpp
+   CmdLineArgParser.cpp
    )
 
 add_library(seapodym_api ${SRCS})
