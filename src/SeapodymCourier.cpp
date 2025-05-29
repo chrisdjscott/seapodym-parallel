@@ -9,12 +9,14 @@ SeapodymCourier::SeapodymCourier(MPI_Comm comm) {
     this->data = nullptr;
     this->data_size = 0;
     this->win = MPI_WIN_NULL;
+    MPI_Comm_rank(comm, &this->local_rank);
 }
 
 SeapodymCourier::~SeapodymCourier() {
     if (this->win != MPI_WIN_NULL) {
         MPI_Win_free(&this->win);
     }
+    // The data pointer is owned by the caller, so we do not free it here.
     this->data = nullptr;
     this->data_size = 0;
 }
@@ -51,17 +53,10 @@ SeapodymCourier::accumulate(const std::set<int>& source_workers, int target_work
     // Ensure the window is ready for access
     MPI_Win_fence(MPI_MODE_NOPUT | MPI_MODE_NOPRECEDE, this->win);
 
-    // Create a temporary buffer to hold the data fetched from source workers
-    std::vector<double> data(this->data_size);
-    
-    // Iterate over all source workers and fetch their data
-    for (int source_worker : source_workers) {
-        MPI_Get(&data.front(), this->data_size, MPI_DOUBLE, source_worker, 0, this->data_size, MPI_DOUBLE, this->win);
-        
-        // Accumulate the fetched data into the target worker's data
-        for (int i = 0; i < this->data_size; ++i) {
-            this->data[i] += data[i];
-        }
+    if (source_workers.count(this->local_rank) == 1) {
+        // If the local worker is in the source workers, we can accumulate data
+        // This worker's data will be accumulated into the target worker's data
+        MPI_Accumulate(this->data, this->data_size, MPI_DOUBLE, target_worker, 0, this->data_size, MPI_DOUBLE, MPI_SUM, this->win);
     }
     
     // Complete the access to the window

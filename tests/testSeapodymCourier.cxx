@@ -1,6 +1,12 @@
 #include <SeapodymCourier.h>
 #include <iostream>
 
+void setData(double* data, int size, int rank) {
+    for (int i = 0; i < size; ++i) {
+        data[i] = rank * 10 + i; // Fill with some test data
+    }
+}
+
 
 int main(int argc, char* argv[]) {
     // Initialize the MPI environment
@@ -18,9 +24,9 @@ int main(int argc, char* argv[]) {
     {
         // Create an instance of SeapodymCourier
         SeapodymCourier courier(MPI_COMM_WORLD);
-        for (int i = 0; i < data_size; ++i) {
-            data[i] = world_rank * 10 + i; // Fill with some test data
-        }
+
+        // Initialize the data for this process
+        setData(data, data_size, world_rank);
 
         // Expose the memory of this process
         courier.expose(data, data_size);
@@ -48,8 +54,15 @@ int main(int argc, char* argv[]) {
             std::cout << std::endl;
         }
 
-        // Note: The destructor of SeapodymCourier will automatically free the MPI windows
-        // when the object goes out of scope.
+        // test the accumulate function
+        std::set<int> source_workers;
+        for (int i = 1; i < world_size; ++i) {
+            source_workers.insert(i);
+        }
+        courier.accumulate(source_workers, 0);
+
+        // Clean up the SeapodymCourier instance
+        // The destructor will automatically free the MPI window
     }
 
     // Finalize the MPI environment

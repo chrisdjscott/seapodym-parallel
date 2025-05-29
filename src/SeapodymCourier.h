@@ -16,11 +16,20 @@ class SeapodymCourier {
     
     private:
     
+        // MPI communicator to use for communication
         MPI_Comm comm;
-        double *data; // Pointer to the data exposed by this worker
-        int data_size; // Size of the data exposed by this worker
-        MPI_Win win; // MPI window for the exposed data
 
+        // Pointer to the data exposed by this worker. This class does not own this pointer, 
+        // it is provided by the user. The data is expected to be allocated by the user and 
+        // should remain valid for the lifetime of this SeapodymCourier instance.
+        double *data;
+        int data_size; 
+
+        // MPI window for the exposed data
+        MPI_Win win;
+
+        // Local MPI rank
+        int local_rank;
     public:
 
     /**
