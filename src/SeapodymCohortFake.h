@@ -7,6 +7,13 @@
 #ifndef SEAPODYM_COHORT_FAKE
 #define SEAPODYM_COHORT_FAKE
 
+/**
+ * @file SeapodymCohortFake.h
+ * @brief Fake cohort class for testing purposes
+ *
+ * This class simulates a cohort in the Seapodym model, allowing for controlled testing
+ * of the model's functionality without requiring actual biological data.
+ */
 class SeapodymCohortFake : public SeapodymCohortAbstract {
 
   private:
