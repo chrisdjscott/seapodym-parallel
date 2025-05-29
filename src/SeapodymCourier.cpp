@@ -2,6 +2,7 @@
 #include "SeapodymCourier.h"
 #include <sstream>
 #include <string>
+#include <vector>
 
 SeapodymCourier::SeapodymCourier(MPI_Comm comm) {
     this->comm = comm;
@@ -30,7 +31,7 @@ SeapodymCourier::expose(double* data, int data_size) {
 }
 
 void 
-SeapodymCourier::fetch(double* data, int target_rank) {
+SeapodymCourier::fetch(int target_rank) {
 
     // Ensure the window is ready for access
     // MPI_MODE_NOPUT tells MPI that the calling process will not do any MPI_Put operations before the next fence
@@ -38,9 +39,31 @@ SeapodymCourier::fetch(double* data, int target_rank) {
     MPI_Win_fence(MPI_MODE_NOPUT | MPI_MODE_NOPRECEDE, this->win);
     
     // Fetch the data from the remote process
-    MPI_Get(data, this->data_size, MPI_DOUBLE, target_rank, 0, this->data_size, MPI_DOUBLE, this->win);
+    MPI_Get(this->data, this->data_size, MPI_DOUBLE, target_rank, 0, this->data_size, MPI_DOUBLE, this->win);
     
     // Complete the access to the window
     // MPI_MODE_NOSUCCEED tells MPI that the calling process does not expect any successful completion of operations
+    MPI_Win_fence(MPI_MODE_NOSUCCEED, this->win);
+}
+
+void 
+SeapodymCourier::accumulate(const std::set<int>& source_workers, int target_worker) {
+    // Ensure the window is ready for access
+    MPI_Win_fence(MPI_MODE_NOPUT | MPI_MODE_NOPRECEDE, this->win);
+
+    // Create a temporary buffer to hold the data fetched from source workers
+    std::vector<double> data(this->data_size);
+    
+    // Iterate over all source workers and fetch their data
+    for (int source_worker : source_workers) {
+        MPI_Get(&data.front(), this->data_size, MPI_DOUBLE, source_worker, 0, this->data_size, MPI_DOUBLE, this->win);
+        
+        // Accumulate the fetched data into the target worker's data
+        for (int i = 0; i < this->data_size; ++i) {
+            this->data[i] += data[i];
+        }
+    }
+    
+    // Complete the access to the window
     MPI_Win_fence(MPI_MODE_NOSUCCEED, this->win);
 }

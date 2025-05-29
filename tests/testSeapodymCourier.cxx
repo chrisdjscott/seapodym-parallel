@@ -28,22 +28,22 @@ int main(int argc, char* argv[]) {
         if (world_rank == 0) {
             // Process 0 fetches data from all other processes
             for (int i = 1; i < world_size; ++i) {
-                double fetched_data[data_size];
-                courier.fetch(fetched_data, i);
+                courier.fetch(i);
                 std::cout << "Process 0 fetched data from process " << i << ": ";
+                double* data = courier.getDataPtr();
                 for (int j = 0; j < data_size; ++j) {
-                    std::cout << fetched_data[j] << " ";
+                    std::cout << data[j] << " ";
                 }
                 std::cout << std::endl;
             }
         }
         else {
             // Other processes can also fetch their own data
-            double fetched_data[data_size];
-            courier.fetch(fetched_data, world_rank);
+            courier.fetch(world_rank);
             std::cout << "Process " << world_rank << " fetched its own data: ";
+            double* data = courier.getDataPtr();
             for (int j = 0; j < data_size; ++j) {
-                std::cout << fetched_data[j] << " ";
+                std::cout << data[j] << " ";
             }
             std::cout << std::endl;
         }
