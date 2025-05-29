@@ -1,6 +1,4 @@
 #include <mpi.h>
-#include <map>
-
 #ifndef SEAPODYM_COURIER
 #define SEAPODYM_COURIER
 
@@ -18,8 +16,9 @@ class SeapodymCourier {
     private:
     
         MPI_Comm comm;
-
-        std::map<int, Tuple3> workerData; // Maps worker ID to its exposed memory
+        double *data; // Pointer to the data exposed by this worker
+        int data_size; // Size of the data exposed by this worker
+        MPI_Win win; // MPI window for the exposed data
 
     public:
 
@@ -36,11 +35,10 @@ class SeapodymCourier {
 
     /**
      * @brief Expose the memory to other processes
-     * @param workerId Unique identifier for the worker
      * @param data Pointer to the data to be exposed
-     * @param count Number of elements in the data array
+     * @param data_size Number of elements in the data array
      */
-    void expose(int workerId, double* data, int count);
+    void expose(double* data, int data_size);
 
     /**
      * @brief Fetch data from a remote process

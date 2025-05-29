@@ -1,43 +1,43 @@
 
 #include "SeapodymCourier.h"
+#include <sstream>
+#include <string>
 
 SeapodymCourier::SeapodymCourier(MPI_Comm comm) {
     this->comm = comm;
+    this->data = nullptr;
+    this->data_size = 0;
+    this->win = MPI_WIN_NULL;
 }
 
 SeapodymCourier::~SeapodymCourier() {
-    for (auto& entry : workerData) {
-        MPI_Win_free(&std::get<0>(entry.second));
+    if (this->win != MPI_WIN_NULL) {
+        MPI_Win_free(&this->win);
     }
+    this->data = nullptr;
+    this->data_size = 0;
 }
 
 void 
-SeapodymCourier::expose(int workerId, double* data, int count) {
-    MPI_Win win;
-    MPI_Win_create(data, count * sizeof(double), sizeof(double), MPI_INFO_NULL, comm, &win);
-    
-    // Store the window and data pointer in the map
-    workerData[workerId] = std::make_tuple(win, data, count);
+SeapodymCourier::expose(double* data, int data_size) {
+    this->data = data;
+    this->data_size = data_size;
+    // Create an MPI window to expose the data
+    if (this->win != MPI_WIN_NULL) {
+        MPI_Win_free(&this->win);
+    }
+    MPI_Win_create(data, data_size * sizeof(double), sizeof(double), MPI_INFO_NULL, this->comm, &this->win);
 }
 
 void 
 SeapodymCourier::fetch(double* data, int target_rank) {
 
-    auto it = workerData.find(target_rank);
-    if (it != workerData.end()) {
-        MPI_Win win = std::get<0>(it->second);
-        double* remote_data = std::get<1>(it->second);
-        std::size_t count = std::get<2>(it->second);
-
         // Ensure the window is ready for access
         MPI_Win_fence(0, win);
         
         // Fetch the data from the remote process
-        MPI_Get(data, count, MPI_DOUBLE, target_rank, 0, count, MPI_DOUBLE, win);
+        MPI_Get(data, this->data_size, MPI_DOUBLE, target_rank, 0, this->data_size, MPI_DOUBLE, this->win);
         
         // Complete the access to the window
         MPI_Win_fence(0, win);
-    } else {
-        throw std::runtime_error("Worker ID not found in exposed data.");
-    }
 }
