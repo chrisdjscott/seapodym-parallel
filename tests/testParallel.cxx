@@ -37,7 +37,7 @@ int main(int argc, char** argv) {
     }
 
     SeapodymCohortFake cohort(100, 10, workerId); // Create a fake cohort for testing
-    //SeapodymCourier courier(MPI_COMM_WORLD);
+    SeapodymCourier courier(MPI_COMM_WORLD);
 
     // Initialize the SeapodymTaskManager
     SeapodymTaskManager taskManager(na, numWorkers, nt);
@@ -52,6 +52,7 @@ int main(int argc, char** argv) {
             cohort.stepForward(dvar_vector());
         }
         std::cout << "Worker " << workerId << " completed task " << taksId << "." << std::endl;
+
     }
 
 
