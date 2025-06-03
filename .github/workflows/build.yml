@@ -21,7 +21,7 @@ jobs:
         run: "wget https://github.com/admb-project/admb/releases/download/admb-13.2/admb-13.2-linux.zip"
       - name: Extract ADMB
         run: "unzip admb-13.2-linux.zip"
-      - name: Patch admb libs
+      - name: ADMB lib names
         run: |
           ln -s libadmb-x86_64-linux-g++11.so libadmb.so
           ln -s libadmbo-x86_64-linux-g++11.so libadmbo.so
@@ -43,7 +43,7 @@ jobs:
       - run: ls -l docs/html
       - run: ls -l build
       - run: ls -l build/src
-      - run: ls -l build/test
+      - run: ls -l build/tests
 #      - name: Test with cmake
 #        run: ctest --output-on-failure
 #        working-directory: build
