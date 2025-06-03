@@ -28,6 +28,8 @@ jobs:
       - name: Configure with cmake
         run: cmake -B build -DADMB_HOME=~/admb .
       - name: Build with cmake
+        run: cmake --build build
+      - name: Build docs with cmake
         run: cmake --build build --target doc_doxygen
       - name: Test with cmake
         run: ctest
