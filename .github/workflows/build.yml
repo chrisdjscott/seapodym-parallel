@@ -45,4 +45,10 @@ jobs:
       - run: ls -l docs
       - run: ls -l docs/html
       - run: ls -l build
-
+      - name: Deploy documentation
+        uses: peaceiris/actions-gh-pages@v4
+        if: ${{ github.ref == 'refs/heads/actions' }}
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: docs/html
+          publish_branch: gh-pages
