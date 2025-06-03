@@ -39,12 +39,14 @@ jobs:
         run: cmake --build build
       - name: Build docs with cmake
         run: cmake --build build --target doc_doxygen
-#      - name: Test with cmake
-#        run: ctest --output-on-failure
-#        working-directory: build
       - run: ls -l docs
       - run: ls -l docs/html
       - run: ls -l build
+      - run: ls -l build/src
+      - run: ls -l build/test
+#      - name: Test with cmake
+#        run: ctest --output-on-failure
+#        working-directory: build
       - name: Deploy documentation
         uses: peaceiris/actions-gh-pages@v4
         if: ${{ github.ref == 'refs/heads/actions' }}
