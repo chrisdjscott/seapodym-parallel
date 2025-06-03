@@ -40,7 +40,7 @@ jobs:
       - name: Build docs with cmake
         run: cmake --build build --target doc_doxygen
       - name: Test with cmake
-        run: ctest
+        run: ctest --output-on-failure
         working-directory: build
       - run: ls -l docs
       - run: ls -l docs/html
