@@ -15,6 +15,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: mpi4py/setup-mpi@v1
+      - uses: ssciwr/doxygen-install@v1
       - name: Download ADMB
         run: "wget https://github.com/admb-project/admb/releases/download/admb-13.2/admb-13.2-linux.zip"
       - name: Extract ADMB
@@ -26,7 +27,9 @@ jobs:
       - name: Configure with cmake
         run: cmake -B build -DADMB_HOME=~/admb .
       - name: Build with cmake
-        run: cmake --build . --target doc_doxygen
+        run: cmake --build build --target doc_doxygen
       - name: Test with cmake
         run: ctest
+      - run: ls -l docs
+      - run: ls -l build
 
