@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>seapodym-parallel: Main Page</title>
+<title>seapodym-parallel: seapodym-parallel</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -84,10 +84,35 @@ $(function(){ initResizable(false); });
 </div>
 </div>
 
-<div class="header">
-  <div class="headertitle"><div class="title">seapodym-parallel Documentation</div></div>
+<div><div class="header">
+  <div class="headertitle"><div class="title">seapodym-parallel </div></div>
 </div><!--header-->
 <div class="contents">
+<div class="textblock"><p><a class="anchor" id="md_README"></a></p>
+<p>Code development of population dynamics models aka SEAPODYM with parallel runs and parameter estimations</p>
+<h1><a class="anchor" id="autotoc_md1"></a>
+Prerequisites</h1>
+<p>You will need:</p><ul>
+<li>A C++ compiler (e.g. g++) and MPI libraries installed (e.g. OpenMPI)</li>
+<li>CMake</li>
+<li>ADMB</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md2"></a>
+How to build the seapodym-parallel</h1>
+<div class="fragment"><div class="line">git clone  git@github.com:PacificCommunity/seapodym-parallel</div>
+<div class="line">cd seapodym-parallel</div>
+<div class="line">mkdir build</div>
+<div class="line">cd build</div>
+<div class="line">cmake -DADMB_HOME=path ..</div>
+<div class="line">cmake --build .</div>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md3"></a>
+How to build the documention</h1>
+<p>In the build directory </p><div class="fragment"><div class="line">cmake --build . --target doc_doxygen</div>
+</div><!-- fragment --><p> This will generate the documention in the top source directory <code>docs</code>.</p>
+<h1><a class="anchor" id="autotoc_md4"></a>
+How to test the code</h1>
+<p>In the build directory </p><div class="fragment"><div class="line">ctest</div>
+</div><!-- fragment --> </div></div><!-- PageDoc -->
 <a href="doxygen_crawl.html"></a>
 </div><!-- contents -->
 <!-- start footer part -->
